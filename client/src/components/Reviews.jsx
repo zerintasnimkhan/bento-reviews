@@ -13,6 +13,18 @@ const items = [
         image:
           "https://www.willcookforsmiles.com/wp-content/uploads/2021/07/Calamari-6-768x1152.jpg",
       },
+      {
+            subject: "Prawn Tempura",
+            image:
+              "https://www.crunchycreamysweet.com/wp-content/uploads/2020/01/shrimp-tempura-A.jpg",
+      },
+      {
+            subject: "Fried Rice",
+            image:
+              "https://www.joyousapron.com/wp-content/uploads/2020/03/Easy-Chicken-Fried-Rice-Pic-4.jpg",
+      },
+      
+      
   
     ];
 
@@ -24,11 +36,11 @@ const product = items[currentItem];
 //const [disliked, setDisliked] = useState(false);
 
 const handleNext = () => {
-      setCurrentItem((prevItem) => (prevItem === foodItems.length - 1 ? 0 : prevItem + 1));
+      setCurrentItem((prevItem) => (prevItem === items.length - 1 ? 0 : prevItem + 1));
     };
   
-    const handlePrev = () => {
-      setCurrentItem((prevItem) => (prevItem === 0 ? foodItems.length - 1 : prevItem - 1));
+const handlePrev = () => {
+      setCurrentItem((prevItem) => (prevItem === 0 ? items.length - 1 : prevItem - 1));
     };
   
     return (
@@ -43,6 +55,7 @@ const handleNext = () => {
         </div>
       </div>
     );
+
   };
   
   export default Reviews;
