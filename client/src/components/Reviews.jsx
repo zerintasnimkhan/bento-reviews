@@ -1,15 +1,18 @@
 import React, { useState } from "react";
-import { Image,  Button} from "antd";
+import { Button} from "antd";
 import {
   LikeOutlined,
   DislikeOutlined,
   LikeFilled,
   DislikeFilled,
 } from "@ant-design/icons";
+import SwipableCard from "./SwipableCard";
+
 
 //const { Title } = Typography;
 
-const items = [
+
+const items = [ 
   {
     subject: "Chowmein",
     image:
@@ -33,67 +36,48 @@ const items = [
 ];
 
 const Reviews = () => {
-  const [currentItem, setCurrentItem] = useState(0);
-  const product = items[currentItem];
-  const [liked, setLiked] = useState(false);
-  const [disliked, setDisliked] = useState(false);
-
-  const handleLike = () => {
-    if (!liked) {
-     setLiked(true);
-      setDisliked(false);
-      setCurrentItem((currentItem) =>
-      currentItem === items.length - 1 ? 0 : currentItem + 1
+      const [currentItem, setCurrentItem] = useState(0);
+      const [liked, setLiked] = useState(false);
+      const [disliked, setDisliked] = useState(false);
+    
+      const handleSwipe = (direction) => {
+        if (direction === "right") {
+          setLiked(true);
+          setDisliked(false);
+        } else if (direction === "left") {
+          setDisliked(true);
+          setLiked(false);
+        }
+    
+        setCurrentItem((currentItem) =>
+          currentItem === items.length - 1 ? 0 : currentItem + 1
+        );
+      };
+    
+      return (
+        <div style={{ textAlign: "center", marginTop: "20px" }}>
+          <h1 style={{ paddingLeft: "10px" }}>Give your feedback</h1>
+          <SwipableCard item={items[currentItem]} onSwipe={handleSwipe} />
+          <div>
+            <Button
+              type={disliked ? "danger" : "default"}
+              shape="circle"
+              icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
+              size="large"
+              onClick={() => handleSwipe("left")}
+              style={{ marginLeft: "16px" }}
+            />
+            <Button
+              type={liked ? "primary" : "default"}
+              shape="circle"
+              icon={liked ? <LikeFilled /> : <LikeOutlined />}
+              size="large"
+              onClick={() => handleSwipe("right")}
+            />
+          </div>
+        </div>
       );
-      //nextImage();
-    }
-  };
-
-  const handleDislike = () => {
-    if (!disliked) {
-      //setDisliked(true);
-      //setLiked(false);
-      setCurrentItem((currentItem) =>
-      currentItem === items.length - 1 ? 0 : currentItem + 1
-      );
-      //nextImage();
-    }
-  };
-  /*const handleNext = () => {
-      setCurrentItem((prevItem) => (prevItem === items.length - 1 ? 0 : prevItem + 1));
     };
-  
-const handlePrev = () => {
-      setCurrentItem((prevItem) => (prevItem === 0 ? items.length - 1 : prevItem - 1));
-    };*/
-
-  return (
-    <div style={{ textAlign: "center", marginTop: "20px" }}>
-      <h1 style={{ paddingLeft: "10px" }}>Give your feedback</h1>
-      <div style={{ position: "relative", textAlign: "center", color: "white"}}>
-      <Image style={{height: "600px", width: "400px"}} src={product.image} alt={product.subject} preview={false} />
-      <div style={{ fontSize: "180%", fontWeight: "900", fontStyle: "italic", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -100%)"}}>{product.subject}</div> 
-
-      </div>
-      <div>
-        <Button
-          type={disliked ? "danger" : "default"}
-          shape="circle"
-          icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
-          size="large"
-          onClick={handleDislike}
-          style={{ marginLeft: "16px" }}
-        />
-        <Button
-          type={liked ? "primary" : "default"}
-          shape="circle"
-          icon={liked ? <LikeFilled /> : <LikeOutlined />}
-          size="large"
-          onClick={handleLike}
-        />
-      </div>
-    </div>
-  );
-};
-
-export default Reviews;
+    
+    export default Reviews;
+    

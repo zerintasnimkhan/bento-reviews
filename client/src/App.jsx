@@ -1,6 +1,7 @@
 import React from 'react';
 //import ImageSlider from './components/ImageSlider';
 import Reviews from './components/Reviews';
+//import Feedback from './components/Feedback'
 
 function App() {
   return (
