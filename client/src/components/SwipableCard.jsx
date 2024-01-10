@@ -28,7 +28,7 @@ const SwipableCard = ({ item, onSwipe }) => {
           onDragEnd={handleDragEnd}
         >
           <Image style={{ height: "600px", width: "400px" }} src={item.image} alt={item.subject} preview={false} />
-          <div style={{ fontSize: "180%", fontWeight: "900", fontStyle: "italic", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -100%)"}}>{item.subject}</div> 
+          <div style={{ color: "white", fontSize: "180%", fontWeight: "900", fontStyle: "italic", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -100%)"}}>{item.subject}</div> 
         </motion.div>
       );
     };

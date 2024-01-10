@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button} from "antd";
+import { Button } from "antd";
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -7,12 +7,11 @@ import {
   DislikeFilled,
 } from "@ant-design/icons";
 import SwipableCard from "./SwipableCard";
-
+import sendFeedbackToBackend from "../services/review.service";
 
 //const { Title } = Typography;
 
-
-const items = [ 
+const items = [
   {
     subject: "Chowmein",
     image:
@@ -36,48 +35,77 @@ const items = [
 ];
 
 const Reviews = () => {
-      const [currentItem, setCurrentItem] = useState(0);
-      const [liked, setLiked] = useState(false);
-      const [disliked, setDisliked] = useState(false);
-    
-      const handleSwipe = (direction) => {
-        if (direction === "right") {
-          setLiked(true);
-          setDisliked(false);
-        } else if (direction === "left") {
-          setDisliked(true);
-          setLiked(false);
-        }
-    
-        setCurrentItem((currentItem) =>
-          currentItem === items.length - 1 ? 0 : currentItem + 1
-        );
-      };
-    
-      return (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <h1 style={{ paddingLeft: "10px" }}>Give your feedback</h1>
-          <SwipableCard item={items[currentItem]} onSwipe={handleSwipe} />
-          <div>
-            <Button
-              type={disliked ? "danger" : "default"}
-              shape="circle"
-              icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
-              size="large"
-              onClick={() => handleSwipe("left")}
-              style={{ marginLeft: "16px" }}
-            />
-            <Button
-              type={liked ? "primary" : "default"}
-              shape="circle"
-              icon={liked ? <LikeFilled /> : <LikeOutlined />}
-              size="large"
-              onClick={() => handleSwipe("right")}
-            />
-          </div>
-        </div>
-      );
+  const [currentItem, setCurrentItem] = useState(0);
+  const [liked, setLiked] = useState(false);
+  const [disliked, setDisliked] = useState(false);
+
+  const handleSwipe = (direction) => {
+    if (direction === "right") {
+      setLiked(true);
+      setDisliked(false);
+    } else if (direction === "left") {
+      setDisliked(true);
+      setLiked(false);
+    }
+
+    const feedbackData = {
+      item: items[currentItem],
+      liked,
+      disliked,
     };
-    
-    export default Reviews;
-    
+    sendFeedbackToBackend(feedbackData);
+
+  setCurrentItem((currentItem) =>
+    currentItem === items.length - 1 ? 0 : currentItem + 1
+  );
+  };
+
+  return (
+    <div>
+      <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <h1 style={{ paddingLeft: "10px" }}>Give your feedback</h1>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <SwipableCard
+            item={items[currentItem]}
+            onSwipe={handleSwipe}
+            style={{ height: "300px" }}
+          />
+        </div>
+      </div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
+        <div>{/* Your SwipableCard component */}</div>
+        <div style={{ marginTop: "20px" }}>
+          <Button
+            type={disliked ? "danger" : "default"}
+            shape="circle"
+            icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
+            size="large"
+            onClick={() => handleSwipe("left")}
+            style={{ marginLeft: "16px" }}
+          />
+          <Button
+            type={liked ? "primary" : "default"}
+            shape="circle"
+            icon={liked ? <LikeFilled /> : <LikeOutlined />}
+            size="large"
+            onClick={() => handleSwipe("right")}
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Reviews;
