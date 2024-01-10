@@ -14,17 +14,21 @@ const ReviewSchema = new Schema({
     type: String,
     required: true,
   },
-  foodItemId: {
-    type: String,
-    required: true,
-  },
   chefId: {
     type: String,
   },
   waiterId: {
     type: String,
   },
-  isLiked: {
+  restaurantLiked: {
+    type: Boolean,
+    required: true,
+  },
+  chefLiked: {
+    type: Boolean,
+    required: true,
+  },
+  waiterLiked: {
     type: Boolean,
     required: true,
   },
@@ -33,6 +37,12 @@ const ReviewSchema = new Schema({
     required: true,
     default: new Date(),
   },
+  foodReviews: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "foodReview",
+    },
+  ],
 });
 
 const ReviewModel = model("review", ReviewSchema);
@@ -41,7 +51,8 @@ module.exports = ReviewModel;
 
 module.exports.getAllReviews = () => ReviewModel.find();
 
-module.exports.getReviewById = (_id) => ReviewModel.findById(_id);
+module.exports.getReviewById = (_id) =>
+  ReviewModel.findById(_id).populate("foodReviews");
 
 module.exports.updateReviewById = (_id) => ReviewModel.findByIdAndUpdate(_id);
 
@@ -51,7 +62,21 @@ module.exports.addReview = ({
   userId,
   orderId,
   restaurantId,
-  foodItemId,
-  isLiked,
+  chefId,
+  waiterId,
+  restaurantLiked,
+  chefLiked,
+  waiterLiked,
+  foodReviews,
 }) =>
-  ReviewModel.create({ userId, orderId, restaurantId, foodItemId, isLiked });
+  ReviewModel.create({
+    userId,
+    orderId,
+    restaurantId,
+    chefId,
+    waiterId,
+    restaurantLiked,
+    chefLiked,
+    waiterLiked,
+    foodReviews,
+  });
