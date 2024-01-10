@@ -1,0 +1,25 @@
+const { model, Schema } = require("mongoose");
+
+const ReviewedFoodSchema = new Schema({
+  reviewId: {
+    type: String,
+    required: true,
+  },
+  foodId: {
+    type: String,
+    required: true,
+  },
+  isLiked: {
+    type: Boolean,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    required: true,
+    default: new Date(),
+  },
+});
+
+const FoodModel = model("food", ReviewedFoodSchema);
+
+module.exports = FoodModel;

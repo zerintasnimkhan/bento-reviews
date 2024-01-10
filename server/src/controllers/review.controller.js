@@ -8,7 +8,7 @@ module.exports.createReview = async (req, res) => {
       restaurantId,
       chefId,
       waiterId,
-      foodItemId,
+      foods,
       isLiked,
     } = req.body;
 
@@ -21,7 +21,6 @@ module.exports.createReview = async (req, res) => {
       restaurantId,
       chefId,
       waiterId,
-      foodItemId,
       isLiked,
     };
 
@@ -30,6 +29,15 @@ module.exports.createReview = async (req, res) => {
 
     const savedReview = await addReview(data);
 
+    for (const food of foods) {
+      const foodReview = {
+        reviewId: savedReview.id,
+        foodId: food.id,
+        isLiked: food.isLiked,
+      };
+      await addReviewedFood(foodReview);
+    }
+
     res.status(201).json({ message: "Review added", review: savedReview });
   } catch (error) {
     console.log(error);
@@ -37,6 +45,10 @@ module.exports.createReview = async (req, res) => {
       return res.status(400).json({ error: error.message });
     }
     res.status(500).json({ error: "Server error" });
+  }
+
+  async function addReviewedFood(foodReview) {
+    await addFoodReview(foodReview);
   }
 };
 
