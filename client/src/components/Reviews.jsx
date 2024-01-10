@@ -124,7 +124,6 @@ const Reviews = () => {
               alignItems: "center",
             }}
           >
-            <div>{/* Your SwipableCard component */}</div>
             <div style={{ marginTop: "20px" }}>
               <Button
                 type={disliked ? "danger" : "default"}
