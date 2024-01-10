@@ -1,6 +1,6 @@
 const { model, Schema } = require("mongoose");
 
-const ReviewedFoodSchema = new Schema({
+const FoodReviewSchema = new Schema({
   reviewId: {
     type: String,
     required: true,
@@ -20,6 +20,13 @@ const ReviewedFoodSchema = new Schema({
   },
 });
 
-const FoodModel = model("food", ReviewedFoodSchema);
+const FoodReviewModel = model("foodReview", FoodReviewSchema);
 
-module.exports = FoodModel;
+module.exports = FoodReviewModel;
+
+module.exports.addFoodReview = ({ reviewId, foodId, isLiked }) =>
+  FoodReviewModel.create({
+    reviewId,
+    foodId,
+    isLiked,
+  });

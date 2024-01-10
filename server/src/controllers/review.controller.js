@@ -1,4 +1,9 @@
-const { addReview, getAllReviews } = require("../models/review.model");
+const { addFoodReview } = require("../models/foodReview.model");
+const {
+  addReview,
+  getAllReviews,
+  getReviewById,
+} = require("../models/review.model");
 
 module.exports.createReview = async (req, res) => {
   try {
@@ -8,34 +13,38 @@ module.exports.createReview = async (req, res) => {
       restaurantId,
       chefId,
       waiterId,
-      foods,
-      isLiked,
+      foodReviews,
+      waiterLiked,
+      restaurantLiked,
+      chefLiked,
     } = req.body;
 
-    if (!userId || !orderId || !restaurantId || !foodItemId ) {
+    if (!userId || !orderId || !restaurantId || !foodReviews) {
       return res.status(400).json();
     }
-    const data = {
+    const reviewData = {
       userId,
       orderId,
       restaurantId,
       chefId,
       waiterId,
-      isLiked,
+      waiterLiked,
+      restaurantLiked,
+      chefLiked,
     };
 
-    console.log(data);
+    console.log(reviewData);
 
+    const savedReview = await addReview(reviewData);
 
-    const savedReview = await addReview(data);
-
-    for (const food of foods) {
-      const foodReview = {
+    for (const foodReview of foodReviews) {
+      const updatedFoodReview = {
         reviewId: savedReview.id,
-        foodId: food.id,
-        isLiked: food.isLiked,
+        foodId: foodReview.foodId,
+        isLiked: foodReview.isLiked,
       };
-      await addReviewedFood(foodReview);
+      console.log(updatedFoodReview);
+      await addFoodReview(updatedFoodReview);
     }
 
     res.status(201).json({ message: "Review added", review: savedReview });
@@ -44,7 +53,7 @@ module.exports.createReview = async (req, res) => {
     if (error.name === "ValidationError") {
       return res.status(400).json({ error: error.message });
     }
-    res.status(500).json({ error: "Server error" });
+    res.status(500).json({ error: error.message });
   }
 
   async function addReviewedFood(foodReview) {

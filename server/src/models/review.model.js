@@ -37,12 +37,12 @@ const ReviewSchema = new Schema({
     required: true,
     default: new Date(),
   },
-  foodReviews: [
+  /*foodReviews: [
     {
       type: Schema.Types.ObjectId,
       ref: "foodReview",
     },
-  ],
+  ],*/
 });
 
 const ReviewModel = model("review", ReviewSchema);

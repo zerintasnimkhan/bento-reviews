@@ -3,14 +3,14 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const config = require("./config");
 const authRouter = require("./routers/auth.router");
-const reviewRouter = require("./routers/review.router")
+const reviewRouter = require("./routers/review.router");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use("/", authRouter);
-app.use("/review", reviewRouter);
+app.use("/reviews", reviewRouter);
 
 (async function () {
   try {
