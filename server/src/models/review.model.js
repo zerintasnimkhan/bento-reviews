@@ -1,5 +1,5 @@
 const { model, Schema } = require("mongoose");
-
+const { FoodReviewModel } = require("./foodReview.model");
 const ReviewSchema = new Schema({
   userId: {
     type: String,
@@ -7,7 +7,7 @@ const ReviewSchema = new Schema({
   },
   orderId: {
     type: String,
-    unique: true,
+    // unique: true,
     required: true,
   },
   restaurantId: {
@@ -80,3 +80,40 @@ module.exports.addReview = ({
     waiterLiked,
     foodReviews,
   });
+
+module.exports.getReviewsByRestaurant = async (restaurantId) => {
+  const totalRestaurantReviews = await ReviewModel.find({
+    restaurantId: restaurantId,
+  });
+
+  const totalfoodReviewsOfRestaurant = await FoodReviewModel.find({
+    restaurantId: restaurantId,
+  });
+  //const totalWaiterReviewsOfRestaurant =
+
+  const totalRestaurantLikes = await ReviewModel.find({
+    restaurantId: restaurantId,
+    restaurantLiked: true,
+  });
+
+  const totalfoodLikes = await FoodReviewModel.find({
+    restaurantId: restaurantId,
+    isLiked: true,
+  });
+  
+
+  const totalWaiterLikes = await ReviewModel.find({
+    restaurantId: restaurantId,
+    waiterLiked: true,
+  });
+  console.log(totalfoodLikes.length);
+  console.log(totalRestaurantLikes.length, )
+  return (
+    ((totalRestaurantLikes.length +
+      totalfoodLikes.length +
+      totalWaiterLikes.length) /
+        (totalRestaurantReviews.length * 2 +
+          totalfoodReviewsOfRestaurant.length)) * 100
+    
+  ).toFixed(2);
+};

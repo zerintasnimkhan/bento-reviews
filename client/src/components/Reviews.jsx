@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button } from "antd";
+import { Button, Flex } from "antd";
 import {
   LikeOutlined,
   DislikeOutlined,
@@ -12,34 +12,34 @@ import sendFeedbackToBackend from "../services/review.service";
 //const { Title } = Typography;
 const reviewData = {
   userId: "asdasdasd",
-  orderId: "assssasssssdssassswswdasd",
-  restaurantId: "asdasdasd",
+  orderId: "1",
+  restaurantId: "1",
   restaurantLiked: true,
-  chefId: "aqweqweqwe",
-  waiterId: "34sdre",
+  chefId: "1",
+  waiterId: "1",
   chefLiked: false,
   waiterLiked: true,
   foods: [
     {
-      foodId: "qqwe22",
+      foodId: "1",
       subject: "Chowmein",
       image:
         "https://www.chilitochoc.com/wp-content/uploads/2021/03/Desi-Chow-Mein-2.jpg",
     },
     {
-      foodId: "qqwe22",
+      foodId: "2",
       subject: "Fried Calamari",
       image:
         "https://www.willcookforsmiles.com/wp-content/uploads/2021/07/Calamari-6-768x1152.jpg",
     },
     {
-      foodId: "qqwe22",
+      foodId: "3",
       subject: "Prawn Tempura",
       image:
         "https://www.crunchycreamysweet.com/wp-content/uploads/2020/01/shrimp-tempura-A.jpg",
     },
     {
-      foodId: "qqwe22",
+      foodId: "4",
       subject: "Fried Rice",
       image:
         "https://www.joyousapron.com/wp-content/uploads/2020/03/Easy-Chicken-Fried-Rice-Pic-4.jpg",
@@ -98,12 +98,13 @@ const Reviews = () => {
   return (
     <div>
       {showThankYou ? (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
+        <div style={{ textAlign: "center", marginTop: "100px" }}>
           <h1>Thank you for your review.</h1>
         </div>
       ) : (
         <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <h1>Give your feedback</h1>
+          <h2 style={{ marginLeft: "30vw", marginTop: "20vh", marginBottom: "-4vh" }}>How was your</h2>
+          <Flex style={{direction:"column" }}>
           <div
             style={{
               display: "flex",
@@ -124,7 +125,7 @@ const Reviews = () => {
               alignItems: "center",
             }}
           >
-            <div style={{ marginTop: "20px" }}>
+            <div style={{ marginTop: "660px", marginLeft:"35vw", marginBottom:"-40vh"}}>
               <Button
                 type={disliked ? "danger" : "default"}
                 shape="circle"
@@ -142,6 +143,7 @@ const Reviews = () => {
               />
             </div>
           </div>
+          </Flex>
         </div>
       )}
     </div>

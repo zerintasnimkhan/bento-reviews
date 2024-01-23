@@ -3,6 +3,7 @@ const {
   addReview,
   getAllReviews,
   getReviewById,
+  getReviewsByRestaurant,
 } = require("../models/review.model");
 
 module.exports.createReview = async (req, res) => {
@@ -40,10 +41,11 @@ module.exports.createReview = async (req, res) => {
     for (const foodReview of foodReviews) {
       const updatedFoodReview = {
         reviewId: savedReview.id,
+        restaurantId: restaurantId,
         foodId: foodReview.foodId,
         isLiked: foodReview.isLiked,
       };
-      console.log(updatedFoodReview);
+      // console.log(updatedFoodReview);
       await addFoodReview(updatedFoodReview);
     }
 
@@ -68,5 +70,16 @@ module.exports.fetchAllReviews = async (_req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Server error" });
+  }
+};
+
+module.exports.getReviewsByRestaurant = async (req, res) => {
+  try {
+    const restaurantId = req.params.id;
+    // console.log(restaurantId);
+    const reviews = await getReviewsByRestaurant(restaurantId);
+    res.json(reviews);
+  } catch (error) {
+    res.send(error);
   }
 };

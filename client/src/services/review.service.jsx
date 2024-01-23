@@ -1,5 +1,6 @@
 const sendFeedbackToBackend = async (feedbackData) => {
   try {
+    console.log(feedbackData);
     const response = await fetch("http://localhost:3000/reviews/add", {
       method: "POST",
       headers: {

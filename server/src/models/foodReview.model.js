@@ -9,6 +9,10 @@ const FoodReviewSchema = new Schema({
     type: String,
     required: true,
   },
+  restaurantId: {
+    type: String,
+    required: true,
+  },
   isLiked: {
     type: Boolean,
     required: true,
@@ -22,11 +26,12 @@ const FoodReviewSchema = new Schema({
 
 const FoodReviewModel = model("foodReview", FoodReviewSchema);
 
-module.exports = FoodReviewModel;
+module.exports.FoodReviewModel = FoodReviewModel;
 
-module.exports.addFoodReview = ({ reviewId, foodId, isLiked }) =>
+module.exports.addFoodReview = ({ reviewId, foodId, isLiked, restaurantId }) =>
   FoodReviewModel.create({
     reviewId,
     foodId,
     isLiked,
+    restaurantId,
   });
