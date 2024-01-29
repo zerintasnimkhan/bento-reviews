@@ -33,7 +33,7 @@ const SwipableCard = ({ item, onSwipe }) => {
             marginLeft: "100vw",
             marginTop: "5vh",
             fontWeight: "bolder",
-            fontSize: "1.7rem",
+            fontSize: "1.8rem",
           }}
         >
           {item.subject}?

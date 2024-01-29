@@ -102,49 +102,74 @@ const Reviews = () => {
           <h1>Thank you for your review.</h1>
         </div>
       ) : (
-        <div style={{ textAlign: "center", marginTop: "20px" }}>
-          <h2 style={{ marginLeft: "30vw", marginTop: "20vh", marginBottom: "-4vh" }}>How was your</h2>
-          <Flex style={{direction:"column" }}>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <SwipableCard
-              item={items[currentItem]}
-              onSwipe={handleSwipe}
-              style={{ height: "300px" }}
-            />
+        <Flex
+          gap="middle"
+          vertical
+          style={{ flexDirection: "column", width: "100%" }}
+        >
+          <div style={{ textAlign: "center", marginTop: "20px" }}>
+            <h2
+              style={{
+                marginLeft: "30vw",
+                marginTop: "30vh",
+                marginBottom: "-4vh",
+              }}
+            >
+              How was your
+            </h2>
+            <Flex style={{ direction: "column" }}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <SwipableCard
+                  item={items[currentItem]}
+                  onSwipe={handleSwipe}
+                  style={{ height: "300px" }}
+                />
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <div
+                  style={{
+                    marginTop: "660px",
+                    marginLeft: "35vw",
+                    marginBottom: "-40vh",
+                  }}
+                >
+                  <Button
+                    type={disliked ? "danger" : "default"}
+                    shape="circle"
+                    icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
+                    size="large"
+                    onClick={() => handleSwipe("left")}
+                    style={{ width: "4rem", height: "4rem" }}
+                  />
+                  <Button
+                    type={liked ? "primary" : "default"}
+                    shape="circle"
+                    icon={liked ? <LikeFilled /> : <LikeOutlined />}
+                    size="large"
+                    style={{ marginLeft: "2vw", width: "4rem", height: "4rem" }}
+                    onClick={() => handleSwipe("right")}
+                  />
+                </div>
+                {/* <div><p>zerin</p></div> */}
+              </div>
+            </Flex>
           </div>
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
-            }}
-          >
-            <div style={{ marginTop: "660px", marginLeft:"35vw", marginBottom:"-40vh"}}>
-              <Button
-                type={disliked ? "danger" : "default"}
-                shape="circle"
-                icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
-                size="large"
-                onClick={() => handleSwipe("left")}
-                style={{ marginLeft: "16px" }}
-              />
-              <Button
-                type={liked ? "primary" : "default"}
-                shape="circle"
-                icon={liked ? <LikeFilled /> : <LikeOutlined />}
-                size="large"
-                onClick={() => handleSwipe("right")}
-              />
-            </div>
-          </div>
-          </Flex>
-        </div>
+          {/* <div>
+            <p style={{marginTop:"20vh"}}>swipe left to</p>
+          </div>  */}
+        </Flex>
       )}
     </div>
   );
