@@ -8,7 +8,7 @@ import {
   LikeFilled,
   DislikeFilled,
 } from "@ant-design/icons";
-import SwipableCard from "./SwipableCard";
+import Card from "./Card";
 import sendFeedbackToBackend from "../services/review.service";
 
 //const { Title } = Typography;
@@ -46,6 +46,18 @@ const reviewData = {
       image:
         "https://www.joyousapron.com/wp-content/uploads/2020/03/Easy-Chicken-Fried-Rice-Pic-4.jpg",
     },
+    {
+      foodId: "5",
+      subject: "Service of your waiter",
+      image:
+        "https://img.freepik.com/premium-photo/close-up-young-waiter-stylish-uniform-carrying-exquisite-salad-client-beautiful-gourmet-restaurant-table-service-restaurant_180601-17348.jpg",
+    },
+    {
+      foodId: "6",
+      subject: "Restaurant",
+      image:
+        "https://png.pngtree.com/thumb_back/fw800/background/20230817/pngtree-many-plates-of-food-is-shown-on-tables-at-restaurant-image_13032063.jpg",
+    },
   ],
 };
 
@@ -64,7 +76,7 @@ const reviewedData = {
 
 const feedbackData = [];
 
-const Reviews = () => {
+const Feedback = () => {
   const [currentItem, setCurrentItem] = useState(0);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
@@ -110,17 +122,18 @@ const Reviews = () => {
     <div>
       {showThankYou ? (
         <div
-          style={{
-            margin: "auto",
-            width: "70%",
-            textAlign: "center",
-            fontFamily: "proximanova",
-            marginTop: "40vh",
-            marginRight: "60vw"
-          }}
+          // style={{
+          //   margin: "auto",
+          //   width: "70%",
+          //   textAlign: "center",
+          //   fontFamily: "proximanova",
+          //   // marginTop: "40vh",
+          //   marginRight: "60vw"
+          // }}
+          style={{marginTop:"-20vh"}}
         >
           <Lottie options={defaultOptions} height={400} width={400} />
-          <h2>Thank you for your feedback!</h2>
+          <h1 style={{margin: "auto", textAlign:"center", fontFamily:"proximanova", marginLeft:"10vw", marginRight:"10vw"}}>Thank you for your feedback!</h1>
         </div>
       ) : (
         <Flex
@@ -128,72 +141,46 @@ const Reviews = () => {
           vertical
           style={{ flexDirection: "column", width: "100%" }}
         >
-          <div style={{ textAlign: "center", marginTop: "20px" }}>
-            <h2
-              style={{
-                marginLeft: "30vw",
-                marginTop: "30vh",
-                marginBottom: "-4vh",
-              }}
-            >
-              How was your
-            </h2>
-            <Flex style={{ direction: "column" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <SwipableCard
-                  item={items[currentItem]}
-                  onSwipe={handleSwipe}
-                  style={{ height: "300px" }}
-                />
-              </div>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                }}
-              >
-                <div
-                  style={{
-                    marginTop: "660px",
-                    marginLeft: "35vw",
-                    marginBottom: "-40vh",
-                  }}
-                >
-                  <Button
-                    type={disliked ? "danger" : "default"}
-                    shape="circle"
-                    icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
-                    size="large"
-                    onClick={() => handleSwipe("left")}
-                    style={{ width: "4rem", height: "4rem" }}
-                  />
-                  <Button
-                    type={liked ? "primary" : "default"}
-                    shape="circle"
-                    icon={liked ? <LikeFilled /> : <LikeOutlined />}
-                    size="large"
-                    style={{ marginLeft: "2vw", width: "4rem", height: "4rem" }}
-                    onClick={() => handleSwipe("right")}
-                  />
-                </div>
-                {/* <div><p>zerin</p></div> */}
-              </div>
-            </Flex>
+          <div>
+            <Card item={items[currentItem]} onSwipe={handleSwipe} />
           </div>
-          {/* <div>
-            <p style={{marginTop:"20vh"}}>swipe left to</p>
-          </div>  */}
+          <div style={{ textAlign: "center", fontFamily:"proximanova", marginLeft:"10vw", marginRight:"10vw" }}>
+            <p>
+              You ordered this from "La Foodamante" restaurant in the evening
+              yesterday.
+            </p>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "center",
+            }}
+          >
+            <Button
+              type={disliked ? "danger" : "default"}
+              shape="circle"
+              icon={disliked ? <DislikeFilled /> : <DislikeOutlined />}
+              size="large"
+              onClick={() => handleSwipe("left")}
+              style={{ width: "4rem", height: "4rem" }}
+            />
+            <Button
+              type={liked ? "primary" : "default"}
+              shape="circle"
+              icon={liked ? <LikeFilled /> : <LikeOutlined />}
+              size="large"
+              style={{ marginLeft: "2vw", width: "4rem", height: "4rem" }}
+              onClick={() => handleSwipe("right")}
+            />
+          </div>
+          <div style={{ textAlign: "center", color:"grey" }}>
+            <p>Swipe right to like, and left to dislike</p>
+          </div>
         </Flex>
       )}
     </div>
   );
 };
 
-export default Reviews;
+export default Feedback;
