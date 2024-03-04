@@ -1,7 +1,7 @@
 const sendFeedbackToBackend = async (feedbackData) => {
   try {
     console.log(feedbackData);
-    const response = await fetch("http://localhost:3000/reviews/add", {
+    const response = await fetch("https://bento-reviews-crabypatty.koyeb.app/reviews/add", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
