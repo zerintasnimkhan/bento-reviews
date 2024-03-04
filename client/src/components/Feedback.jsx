@@ -32,13 +32,13 @@ const reviewData = {
       foodId: "2",
       subject: "Fried Calamari",
       image:
-        "https://www.willcookforsmiles.com/wp-content/uploads/2021/07/Calamari-6-768x1152.jpg",
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDBsY49ZJnQ6w6WwcuGWKLcyXJQl7GHVCxNw&usqp=CAU",
     },
     {
       foodId: "3",
       subject: "Prawn Tempura",
       image:
-        "https://www.crunchycreamysweet.com/wp-content/uploads/2020/01/shrimp-tempura-A.jpg",
+        "https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-03.jpg",
     },
     {
       foodId: "4",
