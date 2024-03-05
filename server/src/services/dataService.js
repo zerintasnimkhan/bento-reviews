@@ -6,3 +6,7 @@ exports.fetchDataFromMarketPlace = async () => {
   return response.data;
 };
 
+exports.fetchDataFromPos = async () => {
+      const response = await axios.get('https://bento-pos-server.onrender.com/order/65e05370c65250319699558a');
+      return response.data;
+    };
