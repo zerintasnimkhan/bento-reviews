@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Button, Flex } from "antd";
 import Lottie from "react-lottie";
 import animationData from "../../public/lottie/animationData.json";
@@ -13,50 +13,29 @@ import sendFeedbackToBackend from "../services/review.service";
 
 //const { Title } = Typography;
 const reviewData = {
-  userId: "asdasdasd",
-  orderId: "1",
+  userId: "65d1b671c4cce0bc0d348f17",
+  orderId: "65d75617b3b361b7e8a457ce",
   restaurantId: "1",
-  restaurantLiked: true,
-  chefId: "1",
-  waiterId: "1",
-  chefLiked: false,
-  waiterLiked: true,
   foods: [
     {
-      foodId: "1",
-      subject: "Chowmein",
+      subject: "food",
+      id: "7f001a6e9c9d874c1c41106e",
+      name: "Fish and Chips",
       image:
-        "https://www.chilitochoc.com/wp-content/uploads/2021/03/Desi-Chow-Mein-2.jpg",
+        "https://foodishjs.netlify.app/assets/images/seafood/seafood49.jpg",
     },
     {
-      foodId: "2",
-      subject: "Fried Calamari",
+      id: "1",
+      subject: "restaurant",
+      name: "Wild Thyme",
       image:
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQDBsY49ZJnQ6w6WwcuGWKLcyXJQl7GHVCxNw&usqp=CAU",
+        "http://res.cloudinary.com/dsuiwxwkg/image/upload/v1707911996/pzmassjwhqvrz0oozr0z.jpg",
     },
     {
-      foodId: "3",
-      subject: "Prawn Tempura",
-      image:
-        "https://khinskitchen.com/wp-content/uploads/2023/08/prawn-tempura-03.jpg",
-    },
-    {
-      foodId: "4",
-      subject: "Fried Rice",
-      image:
-        "https://www.joyousapron.com/wp-content/uploads/2020/03/Easy-Chicken-Fried-Rice-Pic-4.jpg",
-    },
-    {
-      foodId: "5",
-      subject: "Service of your waiter",
-      image:
-        "https://img.freepik.com/premium-photo/close-up-young-waiter-stylish-uniform-carrying-exquisite-salad-client-beautiful-gourmet-restaurant-table-service-restaurant_180601-17348.jpg",
-    },
-    {
-      foodId: "6",
-      subject: "Restaurant",
-      image:
-        "https://png.pngtree.com/thumb_back/fw800/background/20230817/pngtree-many-plates-of-food-is-shown-on-tables-at-restaurant-image_13032063.jpg",
+      id: "devlivery-man-id",
+      subject: "delivery",
+      name: "Delivery Service",
+      image: "dummy img url",
     },
   ],
 };
@@ -78,9 +57,23 @@ const feedbackData = [];
 
 const Feedback = () => {
   const [currentItem, setCurrentItem] = useState(0);
+  const [orderDetailsMarketPlace, setOrderDetailsMarketPlace] = useState();
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+
+  useEffect(() => {
+      fetch("https://bento-reviews-crabypatty.koyeb.app/orderDetails/marketplace/")
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+          setOrderDetailsMarketPlace(data);
+        })
+        .catch((error) =>
+          console.error("Error fetching data from MarketPlace:", error)
+        );
+    }, []);
+    console.log(orderDetailsMarketPlace, "from state");
 
   const handleSwipe = (direction) => {
     if (direction === "right") {
@@ -130,10 +123,20 @@ const Feedback = () => {
           //   // marginTop: "40vh",
           //   marginRight: "60vw"
           // }}
-          style={{marginTop:"-20vh"}}
+          style={{ marginTop: "-20vh" }}
         >
           <Lottie options={defaultOptions} height={400} width={400} />
-          <h1 style={{margin: "auto", textAlign:"center", fontFamily:"proximanova", marginLeft:"10vw", marginRight:"10vw"}}>Thank you for your feedback!</h1>
+          <h1
+            style={{
+              margin: "auto",
+              textAlign: "center",
+              fontFamily: "proximanova",
+              marginLeft: "10vw",
+              marginRight: "10vw",
+            }}
+          >
+            Thank you for your feedback!
+          </h1>
         </div>
       ) : (
         <Flex
@@ -144,7 +147,14 @@ const Feedback = () => {
           <div>
             <Card item={items[currentItem]} onSwipe={handleSwipe} />
           </div>
-          <div style={{ textAlign: "center", fontFamily:"proximanova", marginLeft:"10vw", marginRight:"10vw" }}>
+          <div
+            style={{
+              textAlign: "center",
+              fontFamily: "proximanova",
+              marginLeft: "10vw",
+              marginRight: "10vw",
+            }}
+          >
             <p>
               You ordered this from "La Foodamante" restaurant in the evening
               yesterday.
@@ -174,7 +184,7 @@ const Feedback = () => {
               onClick={() => handleSwipe("right")}
             />
           </div>
-          <div style={{ textAlign: "center", color:"grey" }}>
+          <div style={{ textAlign: "center", color: "grey" }}>
             <p>Swipe right to like, and left to dislike</p>
           </div>
         </Flex>

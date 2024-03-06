@@ -8,7 +8,8 @@ function App() {
     <BrowserRouter>
     <Routes>
       <Route path="/card" element={<ReviewPage />}/>
-      <Route path="/" element={<Feedback />}/>
+      <Route path="/marketPlace" element={<Feedback />}/>
+      <Route path="/pos" element={<Feedback />}/>
       </Routes>
       </BrowserRouter>
   );
