@@ -14,21 +14,15 @@ const ReviewSchema = new Schema({
     type: String,
     required: true,
   },
-  chefId: {
-    type: String,
-  },
-  waiterId: {
-    type: String,
-  },
   restaurantLiked: {
     type: Boolean,
     required: true,
   },
-  chefLiked: {
+  waiterLiked: {
     type: Boolean,
     required: true,
   },
-  waiterLiked: {
+  deliveryLiked: {
     type: Boolean,
     required: true,
   },
@@ -62,10 +56,8 @@ module.exports.addReview = ({
   userId,
   orderId,
   restaurantId,
-  chefId,
-  waiterId,
   restaurantLiked,
-  chefLiked,
+  deliveryLiked,
   waiterLiked,
   foodReviews,
 }) =>
@@ -73,10 +65,8 @@ module.exports.addReview = ({
     userId,
     orderId,
     restaurantId,
-    chefId,
-    waiterId,
     restaurantLiked,
-    chefLiked,
+    deliveryLiked,
     waiterLiked,
     foodReviews,
   });
@@ -100,20 +90,19 @@ module.exports.getReviewsByRestaurant = async (restaurantId) => {
     restaurantId: restaurantId,
     isLiked: true,
   });
-  
 
   const totalWaiterLikes = await ReviewModel.find({
     restaurantId: restaurantId,
     waiterLiked: true,
   });
   console.log(totalfoodLikes.length);
-  console.log(totalRestaurantLikes.length, )
+  console.log(totalRestaurantLikes.length);
   return (
     ((totalRestaurantLikes.length +
       totalfoodLikes.length +
       totalWaiterLikes.length) /
-        (totalRestaurantReviews.length * 2 +
-          totalfoodReviewsOfRestaurant.length)) * 100
-    
+      (totalRestaurantReviews.length * 2 +
+        totalfoodReviewsOfRestaurant.length)) *
+    100
   ).toFixed(2);
 };

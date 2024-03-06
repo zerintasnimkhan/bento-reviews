@@ -6,19 +6,16 @@ const {
   getReviewsByRestaurant,
 } = require("../models/review.model");
 
-
 module.exports.createReview = async (req, res) => {
   try {
     const {
       userId,
       orderId,
       restaurantId,
-      chefId,
-      waiterId,
       foodReviews,
       waiterLiked,
       restaurantLiked,
-      chefLiked,
+      deliveryLiked,
     } = req.body;
 
     if (!userId || !orderId || !restaurantId || !foodReviews) {
@@ -28,11 +25,9 @@ module.exports.createReview = async (req, res) => {
       userId,
       orderId,
       restaurantId,
-      chefId,
-      waiterId,
       waiterLiked,
       restaurantLiked,
-      chefLiked,
+      deliveryLiked,
     };
 
     console.log(reviewData);
@@ -84,6 +79,3 @@ module.exports.getReviewsByRestaurant = async (req, res) => {
     res.send(error);
   }
 };
-
-
-

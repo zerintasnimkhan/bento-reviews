@@ -46,6 +46,8 @@ exports.fetchDataFromMarketPlace = async (orderId) => {
     userId: data.userId,
     orderId: orderId,
     restaurantId: data.restaurantId,
+    orderTime: data.createdAt,
+    restaurantName: restaurantInfo.data.restaurantName,
     foods: reviewItems,
   };
 
