@@ -1,7 +1,7 @@
 const sendFeedbackToBackend = async (feedbackData) => {
   try {
-    console.log(feedbackData);
-    const response = await fetch("https://bento-reviews-crabypatty.koyeb.app/reviews/add", {
+    const reviewUrl = import.meta.env.VITE_REVIEW_LOCAL_URL + "/reviews/add";
+    const response = await fetch(reviewUrl, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

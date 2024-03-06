@@ -10,60 +10,37 @@ import {
 } from "@ant-design/icons";
 import Card from "./Card";
 import sendFeedbackToBackend from "../services/review.service";
+import { useSearchParams } from "react-router-dom";
 
-//const { Title } = Typography;
-const reviewData = {
-  userId: "65d1b671c4cce0bc0d348f17",
-  orderId: "65d75617b3b361b7e8a457ce",
-  restaurantId: "1",
-  foods: [
-    {
-      subject: "food",
-      id: "7f001a6e9c9d874c1c41106e",
-      name: "Fish and Chips",
-      image:
-        "https://foodishjs.netlify.app/assets/images/seafood/seafood49.jpg",
-    },
-    {
-      id: "1",
-      subject: "restaurant",
-      name: "Wild Thyme",
-      image:
-        "http://res.cloudinary.com/dsuiwxwkg/image/upload/v1707911996/pzmassjwhqvrz0oozr0z.jpg",
-    },
-    {
-      id: "devlivery-man-id",
-      subject: "delivery",
-      name: "Delivery Service",
-      image: "dummy img url",
-    },
-  ],
-};
 
-const items = reviewData.foods;
 
-const reviewedData = {
-  restaurantId: reviewData.restaurantId,
-  userId: reviewData.userId,
-  orderId: reviewData.orderId,
-  waiterId: reviewData.waiterId,
-  chefId: reviewData.chefId,
-  restaurantLiked: reviewData.restaurantLiked,
-  waiterLiked: reviewData.waiterLiked,
-  chefLiked: reviewData.chefLiked,
-};
-
-const feedbackData = [];
 
 const Feedback = () => {
   const [currentItem, setCurrentItem] = useState(0);
-  const [orderDetailsMarketPlace, setOrderDetailsMarketPlace] = useState();
+  const [orderDetailsMarketPlace, setOrderDetailsMarketPlace] = useState(null);
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [showThankYou, setShowThankYou] = useState(false);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const [reviewedData, setReviewedData] = useState({
+    userId: "",
+    orderId: "",
+    restaurantId: "",
+    restaurantLiked: false,
+    waiterLiked: false,
+    deliveryLiked: false,
+    foodReviews: [],
+  });
+
+
+  const mktUrl = import.meta.env.VITE_REVIEW_LOCAL_URL + "/orderDetails/marketplace/";
+
+
+  const orderId = searchParams.get('orderId');
+
 
   useEffect(() => {
-      fetch("https://bento-reviews-crabypatty.koyeb.app/orderDetails/marketplace/")
+      fetch(mktUrl + orderId)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -72,35 +49,71 @@ const Feedback = () => {
         .catch((error) =>
           console.error("Error fetching data from MarketPlace:", error)
         );
-    }, []);
-    console.log(orderDetailsMarketPlace, "from state");
+    }, [mktUrl, orderId]);
 
+
+    const items = orderDetailsMarketPlace ? orderDetailsMarketPlace.foods : [];
+
+
+    const restName = orderDetailsMarketPlace ? orderDetailsMarketPlace.restaurantName : "";
+    const orderTime = orderDetailsMarketPlace ? orderDetailsMarketPlace.orderTime : "";
   const handleSwipe = (direction) => {
+    const updatedData = { ...reviewedData };
+
+
+    updatedData.orderId = orderId;
+    updatedData.userId = orderDetailsMarketPlace.userId;
+    updatedData.restaurantId = orderDetailsMarketPlace.restaurantId;
+
+
     if (direction === "right") {
       setLiked(true);
       items[currentItem].isLiked = true;
       setDisliked(false);
+
+
+      if (items[currentItem].subject === "restaurant") {
+        updatedData.restaurantLiked = true;
+      }
+
+
+      if (items[currentItem].subject === "waiter") {
+        updatedData.waiterLiked = true;
+      }
+
+
+      if (items[currentItem].subject === "delivery") {
+        updatedData.deliveryLiked = true;
+      }
     } else if (direction === "left") {
       setDisliked(true);
       items[currentItem].isLiked = false;
       setLiked(false);
     }
 
-    feedbackData.push(items[currentItem]);
-    // sendFeedbackToBackend(feedbackData);
+
+    if (items[currentItem].subject === "food") {
+      updatedData.foodReviews.push({
+        foodId: items[currentItem].id,
+        isLiked: items[currentItem].isLiked,
+      });
+    }
+
+
+    setReviewedData(updatedData);
+
 
     if (currentItem === items.length - 1) {
-      console.log(reviewedData);
-      // Show thank you message and send feedback to backend
-      reviewedData["foodReviews"] = feedbackData;
-      sendFeedbackToBackend(reviewedData);
+      sendFeedbackToBackend(updatedData);
       setShowThankYou(true);
     }
+
 
     setCurrentItem((currentItem) =>
       currentItem === items.length - 1 ? setShowThankYou(true) : currentItem + 1
     );
   };
+
 
   const defaultOptions = {
     loop: true,
@@ -111,20 +124,11 @@ const Feedback = () => {
     },
   };
 
+
   return (
     <div>
       {showThankYou ? (
-        <div
-          // style={{
-          //   margin: "auto",
-          //   width: "70%",
-          //   textAlign: "center",
-          //   fontFamily: "proximanova",
-          //   // marginTop: "40vh",
-          //   marginRight: "60vw"
-          // }}
-          style={{ marginTop: "-20vh" }}
-        >
+        <div style={{ marginTop: "-20vh" }}>
           <Lottie options={defaultOptions} height={400} width={400} />
           <h1
             style={{
@@ -145,7 +149,7 @@ const Feedback = () => {
           style={{ flexDirection: "column", width: "100%" }}
         >
           <div>
-            <Card item={items[currentItem]} onSwipe={handleSwipe} />
+          <Card item={items[currentItem]} onSwipe={handleSwipe} reviewedData={reviewedData} />
           </div>
           <div
             style={{
@@ -155,10 +159,12 @@ const Feedback = () => {
               marginRight: "10vw",
             }}
           >
+           
             <p>
-              You ordered this from "La Foodamante" restaurant in the evening
-              yesterday.
+              You ordered from {restName} on{" "}
+              {new Date(orderTime).toLocaleDateString()}.
             </p>
+         
           </div>
           <div
             style={{
@@ -192,5 +198,6 @@ const Feedback = () => {
     </div>
   );
 };
+
 
 export default Feedback;
