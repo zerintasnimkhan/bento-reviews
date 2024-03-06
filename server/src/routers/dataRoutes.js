@@ -1,8 +1,11 @@
-const express = require('express');
-const dataController = require('../controllers/dataController');
+const express = require("express");
+const dataController = require("../controllers/dataController");
 const router = express.Router();
 
-router.get('/marketPlace', dataController.fetchOrderDetailsFromMarketPlace);
-router.get('/pos', dataController.fetchOrderDetailsFromPos);
+router.get(
+  "/marketPlace/:orderId",
+  dataController.fetchOrderDetailsFromMarketPlace
+);
+router.get("/pos/:orderId", dataController.fetchOrderDetailsFromPos);
 
 module.exports = router;
