@@ -14,18 +14,11 @@ exports.fetchOrderDetailsFromMarketPlace = async (req, res) => {
 
 exports.fetchOrderDetailsFromPos = async (req, res) => {
   try {
-    const data = await dataService.fetchDataFromPos();
+    const orderId = req.params.orderId;
+    console.log(orderId);
+    const data = await dataService.fetchDataFromPos(orderId);
     res.json(data);
-    // console.log(data);
-    // const formattedData = data.items.map((item) => {
-    //   return {
-    //     subject: item.item.itemName,
-    //     image: item.item.itemImage,
-    //   };
-    // });
-
-    // console.log(formattedData);
-    // return formattedData;
+    console.log(data);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).json({ error: "Internal Server Error" });

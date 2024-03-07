@@ -128,7 +128,7 @@ const Feedback = () => {
   return (
     <div>
       {showThankYou ? (
-        <div style={{ marginTop: "-20vh" }}>
+        <div style={{ marginTop: "10vh" }}>
           <Lottie options={defaultOptions} height={400} width={400} />
           <h1
             style={{
