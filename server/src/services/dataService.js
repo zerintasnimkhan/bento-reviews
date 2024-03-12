@@ -2,7 +2,7 @@ const axios = require("axios");
 
 exports.fetchDataFromMarketPlace = async (orderId) => {
   const order = await axios.get(
-    "https://marketplace-client-bento.koyeb.app/order-details/" + orderId
+    process.env.MARKETPLACE_BASE_URL + "/order-details/" + orderId
   );
 
   const authToken = process.env.SKL_AUTH;
@@ -36,7 +36,8 @@ exports.fetchDataFromMarketPlace = async (orderId) => {
     id: "devlivery-man-id",
     subject: "delivery",
     name: "Delivery Service",
-    image: "https://www.elcucodigital.com/wp-content/uploads/2023/11/delivery-traka-portada.png",
+    image:
+      "https://www.elcucodigital.com/wp-content/uploads/2023/11/delivery-traka-portada.png",
   };
 
   reviewItems.push(restaurantItem);
@@ -55,9 +56,7 @@ exports.fetchDataFromMarketPlace = async (orderId) => {
 };
 
 exports.fetchDataFromPos = async (orderId) => {
-  const order = await axios.get(
-    "https://bento-pos-server.onrender.com/order/" + orderId
-  );
+  const order = await axios.get(process.env.POS_BASE_URL + "/order/" + orderId);
 
   const authToken = process.env.SKL_AUTH;
   const restaurantInfo = await axios.get(
@@ -83,15 +82,16 @@ exports.fetchDataFromPos = async (orderId) => {
   const restaurantItem = {
     id: data.restaurantId,
     subject: "restaurant",
-    name: "Dummy res name",
-    image: "dummy img url",
+    name: restaurantInfo.data.restaurantName,
+    image: restaurantInfo.data.restaurantCoverPhoto,
   };
 
   const waiterItem = {
     id: "waiter-id",
     subject: "waiter",
     name: "Waiter's Service",
-    image: "https://fabricprinting.pk/wp-content/uploads/2020/07/Waiter-Dress-1.jpg",
+    image:
+      "https://fabricprinting.pk/wp-content/uploads/2020/07/Waiter-Dress-1.jpg",
   };
 
   reviewItems.push(restaurantItem);
@@ -104,7 +104,6 @@ exports.fetchDataFromPos = async (orderId) => {
     orderTime: data.createdAt,
     restaurantName: restaurantInfo.data.restaurantName,
     foods: reviewItems,
-
   };
 
   return orderData;
