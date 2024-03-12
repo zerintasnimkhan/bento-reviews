@@ -29,55 +29,43 @@ const FeedbackPos = () => {
     foodReviews: [],
   });
 
+  const posUrl = import.meta.env.VITE_REVIEW_BASE_URL + "/orderDetails/pos/";
 
-  const posUrl = import.meta.env.VITE_REVIEW_LOCAL_URL + "/orderDetails/pos/";
-
-
-  const orderId = searchParams.get('orderId');
-
+  const orderId = searchParams.get("orderId");
 
   useEffect(() => {
-      fetch(posUrl + orderId)
-        .then((response) => response.json())
-        .then((data) => {
-          console.log(data);
-          setOrderDetailsPos(data);
-        })
-        .catch((error) =>
-          console.error("Error fetching data from POS:", error)
-        );
-    }, [posUrl, orderId]);
+    fetch(posUrl + orderId)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        setOrderDetailsPos(data);
+      })
+      .catch((error) => console.error("Error fetching data from POS:", error));
+  }, [posUrl, orderId]);
 
+  const items = orderDetailsPos ? orderDetailsPos.foods : [];
 
-    const items = orderDetailsPos ? orderDetailsPos.foods : [];
-
-
-    const restName = orderDetailsPos ? orderDetailsPos.restaurantName : "";
-    const orderTime = orderDetailsPos ? orderDetailsPos.orderTime : "";
-    const handleSwipe = (direction) => {
+  const restName = orderDetailsPos ? orderDetailsPos.restaurantName : "";
+  const orderTime = orderDetailsPos ? orderDetailsPos.orderTime : "";
+  const handleSwipe = (direction) => {
     const updatedData = { ...reviewedData };
 
-
     updatedData.orderId = orderId;
-    updatedData.userId = orderDetailsPos.userId;
+    updatedData.userId = "pos-user";
     updatedData.restaurantId = orderDetailsPos.restaurantId;
-
 
     if (direction === "right") {
       setLiked(true);
       items[currentItem].isLiked = true;
       setDisliked(false);
 
-
       if (items[currentItem].subject === "restaurant") {
         updatedData.restaurantLiked = true;
       }
 
-
       if (items[currentItem].subject === "waiter") {
         updatedData.waiterLiked = true;
       }
-
 
       if (items[currentItem].subject === "delivery") {
         updatedData.deliveryLiked = true;
@@ -88,7 +76,6 @@ const FeedbackPos = () => {
       setLiked(false);
     }
 
-
     if (items[currentItem].subject === "food") {
       updatedData.foodReviews.push({
         foodId: items[currentItem].id,
@@ -96,21 +83,17 @@ const FeedbackPos = () => {
       });
     }
 
-
     setReviewedData(updatedData);
-
 
     if (currentItem === items.length - 1) {
       sendFeedbackToBackend(updatedData);
       setShowThankYou(true);
     }
 
-
     setCurrentItem((currentItem) =>
       currentItem === items.length - 1 ? setShowThankYou(true) : currentItem + 1
     );
   };
-
 
   const defaultOptions = {
     loop: true,
@@ -120,7 +103,6 @@ const FeedbackPos = () => {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
 
   return (
     <div>
@@ -146,7 +128,11 @@ const FeedbackPos = () => {
           style={{ flexDirection: "column", width: "100%" }}
         >
           <div>
-          <Card item={items[currentItem]} onSwipe={handleSwipe} reviewedData={reviewedData} />
+            <Card
+              item={items[currentItem]}
+              onSwipe={handleSwipe}
+              reviewedData={reviewedData}
+            />
           </div>
           <div
             style={{
@@ -156,12 +142,10 @@ const FeedbackPos = () => {
               marginRight: "10vw",
             }}
           >
-           
             <p>
               You ordered from {restName} on{" "}
               {new Date(orderTime).toLocaleDateString()}.
             </p>
-         
           </div>
           <div
             style={{
@@ -195,6 +179,5 @@ const FeedbackPos = () => {
     </div>
   );
 };
-
 
 export default FeedbackPos;

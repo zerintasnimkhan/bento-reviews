@@ -12,9 +12,6 @@ import Card from "./Card";
 import sendFeedbackToBackend from "../services/review.service";
 import { useSearchParams } from "react-router-dom";
 
-
-
-
 const Feedback = () => {
   const [currentItem, setCurrentItem] = useState(0);
   const [orderDetailsMarketPlace, setOrderDetailsMarketPlace] = useState(null);
@@ -33,7 +30,7 @@ const Feedback = () => {
   });
 
 
-  const mktUrl = import.meta.env.VITE_REVIEW_LOCAL_URL + "/orderDetails/marketplace/";
+  const mktUrl = import.meta.env.VITE_REVIEW_BASE_URL + "/orderDetails/marketplace/";
 
 
   const orderId = searchParams.get('orderId');

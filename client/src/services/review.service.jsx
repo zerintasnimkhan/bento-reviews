@@ -1,6 +1,6 @@
 const sendFeedbackToBackend = async (feedbackData) => {
   try {
-    const reviewUrl = import.meta.env.VITE_REVIEW_LOCAL_URL + "/reviews/add";
+    const reviewUrl = import.meta.env.VITE_REVIEW_BASE_URL + "/reviews/add";
     const response = await fetch(reviewUrl, {
       method: "POST",
       headers: {
