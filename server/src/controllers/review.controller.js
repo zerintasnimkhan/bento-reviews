@@ -2,7 +2,6 @@ const { addFoodReview } = require("../models/foodReview.model");
 const {
   addReview,
   getAllReviews,
-  getReviewById,
   getReviewsByRestaurant,
 } = require("../models/review.model");
 
@@ -41,7 +40,6 @@ module.exports.createReview = async (req, res) => {
         foodId: foodReview.foodId,
         isLiked: foodReview.isLiked,
       };
-      // console.log(updatedFoodReview);
       await addFoodReview(updatedFoodReview);
     }
 
@@ -72,7 +70,6 @@ module.exports.fetchAllReviews = async (_req, res) => {
 module.exports.getReviewsByRestaurant = async (req, res) => {
   try {
     const restaurantId = req.params.id;
-    // console.log(restaurantId);
     const reviews = await getReviewsByRestaurant(restaurantId);
     res.json(reviews);
   } catch (error) {

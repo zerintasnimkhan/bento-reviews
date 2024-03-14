@@ -7,7 +7,6 @@ const ReviewSchema = new Schema({
   },
   orderId: {
     type: String,
-    // unique: true,
     required: true,
   },
   restaurantId: {
@@ -31,12 +30,6 @@ const ReviewSchema = new Schema({
     required: true,
     default: new Date(),
   },
-  /*foodReviews: [
-    {
-      type: Schema.Types.ObjectId,
-      ref: "foodReview",
-    },
-  ],*/
 });
 
 const ReviewModel = model("review", ReviewSchema);
@@ -79,7 +72,6 @@ module.exports.getReviewsByRestaurant = async (restaurantId) => {
   const totalfoodReviewsOfRestaurant = await FoodReviewModel.find({
     restaurantId: restaurantId,
   });
-  //const totalWaiterReviewsOfRestaurant =
 
   const totalRestaurantLikes = await ReviewModel.find({
     restaurantId: restaurantId,

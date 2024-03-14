@@ -168,6 +168,8 @@ const Feedback = () => {
               display: "flex",
               flexDirection: "row",
               justifyContent: "center",
+              fontfamily: "proximanova",
+              fontsize: "10px"
             }}
           >
             <Button
