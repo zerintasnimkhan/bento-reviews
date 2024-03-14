@@ -19,10 +19,7 @@ const SwipableCard = ({ item, onSwipe }) => {
       drag="x"
       dragConstraints={{ left: 0, right: 0 }}
       style={{
-        // x,
         position: "absolute",
-        // width: "100%",
-        // height: "100%",
         cursor: "grab",
       }}
       onDragEnd={handleDragEnd}
@@ -45,7 +42,6 @@ const SwipableCard = ({ item, onSwipe }) => {
         alt={item.subject}
         preview={false}
       />
-      {/* <div style={{ color: "white", fontSize: "180%", fontWeight: "900", fontStyle: "italic", position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -100%)"}}>{item.subject}</div>  */}
     </motion.div>
   );
 };

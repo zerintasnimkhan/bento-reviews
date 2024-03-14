@@ -8,7 +8,6 @@ function App() {
   return (
     <BrowserRouter>
     <Routes>
-      <Route path="/card" element={<ReviewPage />}/>
       <Route path="/marketPlace" element={<Feedback />}/>
       <Route path="/pos" element={<FeedbackPos />}/>
       </Routes>
