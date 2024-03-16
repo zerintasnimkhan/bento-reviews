@@ -41,6 +41,6 @@ The live version of the app is available at https://bento-reviews-six.vercel.app
 
 Feel free to contribute to the project by opening issues or submitting pull requests. If you have any questions or need further assistance, please don't hesitate to contact us.
 
-Thank you for your interest in Bento Reservation!
+Thank you for your interest in Bento Reviews!
 
 ```
